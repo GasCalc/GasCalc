@@ -32,17 +32,23 @@ public class MainActivity extends FragmentActivity
 
         TextView text = (TextView) findViewById(R.id.text_view);
         text.setText(raw);
+
         setupStations(raw);
-        for (Station s : stations) {
+        for (Station s : stations)
+        {
             Log.d(MainActivity.TAG, "" + s.getRegular());
         }
 //        setUpMapIfNeeded();
     }
 
-    private void setupStations(String raw) {
-        raw = raw.substring(raw.indexOf("["));
+    private void setupStations(String raw)
+    {
+        raw = raw.substring(raw.indexOf("[") + 2);
+        Log.d(MainActivity.TAG, raw);
         String[] stationsArray = raw.split("\\{");
-        for (String s : stationsArray) {
+        for (String s : stationsArray)
+        {
+            Log.d(MainActivity.TAG, s);
             stations.add(new Station(s));
         }
     }
