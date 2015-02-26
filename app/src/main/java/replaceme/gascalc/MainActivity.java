@@ -2,6 +2,7 @@ package replaceme.gascalc;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -9,10 +10,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MainActivity extends FragmentActivity
 {
     public static final String TAG = "debug_tag";
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ArrayList<Station> stations = new ArrayList<Station>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,8 +32,19 @@ public class MainActivity extends FragmentActivity
 
         TextView text = (TextView) findViewById(R.id.text_view);
         text.setText(raw);
-
+        setupStations(raw);
+        for (Station s : stations) {
+            Log.d(MainActivity.TAG, "" + s.getRegular());
+        }
 //        setUpMapIfNeeded();
+    }
+
+    private void setupStations(String raw) {
+        raw = raw.substring(raw.indexOf("["));
+        String[] stationsArray = raw.split("\\{");
+        for (String s : stationsArray) {
+            stations.add(new Station(s));
+        }
     }
 
     @Override
