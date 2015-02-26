@@ -22,7 +22,7 @@ public class GasInfo
     public void makeRequest()
     {
         url = "http://www.mshd.net/api/gasprices/" + zip;
-        AsyncTask async = new AsyncRetrieveInfo().execute("" + zip);
+        AsyncTask async = new AsyncRetrieveInfo().execute(url);
         try
         {
             raw = async.get().toString();

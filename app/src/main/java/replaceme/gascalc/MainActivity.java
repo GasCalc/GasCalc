@@ -26,7 +26,8 @@ public class MainActivity extends FragmentActivity
 
         String raw = gas.getRaw();
 
-        TextView text = findViewById(id.)
+        TextView text = (TextView) findViewById(R.id.text_view);
+        text.setText(raw);
 
 //        setUpMapIfNeeded();
     }
