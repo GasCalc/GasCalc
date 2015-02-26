@@ -34,21 +34,21 @@ public class MainActivity extends FragmentActivity
         text.setText(raw);
 
         setupStations(raw);
+
         for (Station s : stations)
         {
-            Log.d(MainActivity.TAG, "" + s.getRegular());
+            Log.d(MainActivity.TAG, "" + s.toString());
         }
 //        setUpMapIfNeeded();
     }
 
     private void setupStations(String raw)
     {
-        raw = raw.substring(raw.indexOf("[") + 2);
-        Log.d(MainActivity.TAG, raw);
+        raw = raw.substring(raw.indexOf("[") + 2, raw.indexOf("]"));
         String[] stationsArray = raw.split("\\{");
+
         for (String s : stationsArray)
         {
-            Log.d(MainActivity.TAG, s);
             stations.add(new Station(s));
         }
     }
