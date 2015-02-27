@@ -3,6 +3,8 @@ package replaceme.gascalc;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +19,7 @@ public class MainActivity extends FragmentActivity
     public static final String TAG = "debug_tag";
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ArrayList<Station> stations = new ArrayList<Station>();
+    private boolean useMap = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,21 +28,31 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.main_activity);
 
         GasInfo gas = new GasInfo(10025);
-
         gas.makeRequest();
+        setupStations(gas.getRaw());
 
-        String raw = gas.getRaw();
-
-        TextView text = (TextView) findViewById(R.id.text_view);
-        text.setText(raw);
-
-        setupStations(raw);
-
-        for (Station s : stations)
+        if (!useMap)
         {
-            Log.d(MainActivity.TAG, "" + s.toString());
+            listMode();
+        } else
+        {
+            mapMode();
         }
-//        setUpMapIfNeeded();
+
+    }
+
+    private void listMode()
+    {
+        setContentView(R.layout.station_list);
+
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(new ArrayAdapter<Station>(this, R.layout.station_view, stations));
+    }
+
+    private void mapMode()
+    {
+        setContentView(R.layout.station_map);
+        setUpMapIfNeeded();
     }
 
     private void setupStations(String raw)
