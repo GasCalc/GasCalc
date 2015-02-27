@@ -3,7 +3,10 @@ package replaceme.gascalc;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends FragmentActivity // implements View.OnClickListener
 {
     public static final String TAG = "debug_tag";
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -44,8 +47,19 @@ public class MainActivity extends FragmentActivity
     private void listMode()
     {
         setContentView(R.layout.station_list);
+//        findViewById(R.id.list_layout).setOnClickListener(this);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> view, View v, int n, long i)
+                                        {
+                                            Log.d(MainActivity.TAG, ((TextView) v).getText().toString());
+                                            TextView info = (TextView) findViewById(R.id.info_view);
+                                            info.setText(((TextView) v).getText());
+                                            setContentView(R.layout.station_info);
+                                        }
+                                    });
         listView.setAdapter(new ArrayAdapter<Station>(this, R.layout.station_view, stations));
     }
 
@@ -114,4 +128,13 @@ public class MainActivity extends FragmentActivity
     {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
+
+//    @Override
+//    public void onClick(View v)
+//    {
+//        Log.d(MainActivity.TAG, ((TextView) v).getText().toString());
+//        TextView info = (TextView) findViewById(R.id.info_view);
+//        info.setText(((TextView) v).getText());
+//        setContentView(R.layout.station_info);
+//    }
 }
